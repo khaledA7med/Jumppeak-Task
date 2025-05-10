@@ -1,0 +1,40 @@
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6 col-md-12 text-center">
+            <img src="assets/auth.jpg" class="img-fluid" alt="Authentication Image">
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <h2 class="text-center mb-4">{{ formType === 'login' ? 'Login' : 'Register' }}</h2>
+                <div *ngFor="let field of config" class="mb-4">
+                    <label class="form-label" [for]="field.name">{{ field.label }}</label>
+                    <input class="form-control" [type]="field.type" [id]="field.name" [formControlName]="field.name" />
+                    <div *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched" class="text-danger">
+                        <small *ngIf="form.get(field.name)?.errors?.['required']">
+                            {{ field.label }} is required.
+                        </small>
+                        <small *ngIf="form.get(field.name)?.errors?.['confirmPassword']">
+                            Password and confirm password do not match.
+                        </small>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary w-100" type="submit">{{ formType === 'login' ? 'Login' : 'Register'
+                        }}</button>
+                </div>
+            </form>
+
+            <!-- Toggle between Login/Register -->
+            <div class="text-center mt-4">
+                <p class="mb-3">
+                    {{ formType === 'login' ? 'Don\'t have an account?' : 'Already have an account?' }}
+                </p>
+                <div class="text-center">
+                    <button class="btn btn-link text-decoration-none" (click)="toggleForm()" role="button">
+                        <strong>{{ formType === 'login' ? 'Register' : 'Login' }}</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

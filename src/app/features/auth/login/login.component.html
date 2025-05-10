@@ -1,0 +1,6 @@
+<div class="container mt-5">
+    <!-- Dynamic Form Component -->
+    <app-dynamic-form [config]="isLogin ? loginConfig : registerConfig" [formType]="isLogin ? 'login' : 'register'"
+        (formTypeChange)="toggleForm($event)">
+    </app-dynamic-form>
+</div>

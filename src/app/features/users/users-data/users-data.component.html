@@ -1,0 +1,26 @@
+<h2>Registered Users</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>phone</th>
+            <th>Address</th>
+            <th>date of birth</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.birthdate }}</td>
+            <td>
+                <button class="btn btn-info" (click)="getUser(user.id)">-</button>
+                <button class="btn btn-danger" (click)="deleteUser(user.id)">x</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

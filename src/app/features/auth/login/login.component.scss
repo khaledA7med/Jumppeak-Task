@@ -1,0 +1,13 @@
+/* Add a fade-in effect when switching forms */
+.app-dynamic-form {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.app-dynamic-form.ng-enter {
+  opacity: 1;
+}
+
+.app-dynamic-form.ng-leave {
+  opacity: 0;
+}

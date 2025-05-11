@@ -2,12 +2,19 @@ $primary-color: #007bff;
 $hover-color: #0056b3;
 $input-focus-color: rgba(0, 123, 255, 0.5);
 
+.wrapper {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
 .container {
   max-width: 1200px;
 }
 
 .row {
-  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -45,22 +52,12 @@ img {
   border-radius: 10px;
 }
 
-.btn.active {
-  background-color: #007bff;
-  color: white;
+.text-danger small {
+  font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {
-  .row {
-    flex-direction: column;
-  }
-  .col-lg-6 {
-    margin-bottom: 20px;
-  }
-}
-
-.text-danger {
-  small {
-    font-size: 0.9rem;
+  .wrapper {
+    height: auto;
   }
 }

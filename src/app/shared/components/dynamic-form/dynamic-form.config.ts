@@ -4,6 +4,7 @@ export const registrationFormConfig = [
   { name: 'password', label: 'Password', type: 'password', required: true },
   { name: 'phone', label: 'Phone', type: 'number', required: false },
   { name: 'address', label: 'Address', type: 'text', required: false },
+  { name: 'birthdate', label: 'Date of Birth', type: 'text', required: false },
 ];
 
 export const loginFormConfig = [

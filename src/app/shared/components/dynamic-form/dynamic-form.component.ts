@@ -9,7 +9,13 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
+import {
+  registerUser,
+  verifyLogin,
+} from 'src/app/features/auth/store/auth.actions';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -26,7 +32,11 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   users: any[] = [];
   loginLogs: any[] = [];
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -58,68 +68,37 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     const formData = this.form.value;
 
     if (this.formType === 'register') {
-      this.auth.registerUser(formData).subscribe({
-        next: () => {
-          this.message = 'Registration successful!';
-          alert('Registration successful!');
-          this.form.reset();
-          this.loadUsers();
-        },
-        error: (err) => {
-          console.error('Registration failed', err);
-          this.message = 'Registration failed. Please try again.';
-        },
-      });
+      this.store.dispatch(registerUser({ user: formData }));
     } else if (this.formType === 'login') {
-      this.auth.getUsers().subscribe({
-        next: (users) => {
-          const user = users.find(
-            (u) =>
-              u.email === formData.email && u.password === formData.password
-          );
-
-          if (user) {
-            this.auth
-              .logLogin({
-                email: user.email,
-                timestamp: new Date().toISOString(),
-              })
-              .subscribe({
-                next: () => {
-                  this.message = 'Login successful!';
-                  alert('Login successful!');
-                  this.form.reset();
-                  this.loadLoginLogs();
-                  this.router.navigate(['/users']);
-                },
-                error: (err) => {
-                  console.error('Login logging failed', err);
-                  this.message = 'Login succeeded, but logging failed.';
-                },
-              });
-          } else {
-            this.message = 'Login failed. Please check your credentials.';
-          }
-        },
-        error: (err) => {
-          console.error('Error fetching users', err);
-          this.message = 'Login failed. Unable to retrieve users.';
-        },
-      });
+      this.store.dispatch(verifyLogin({ credentials: formData }));
     }
+
+    this.form.reset();
   }
 
   loadUsers(): void {
     this.auth.getUsers().subscribe({
       next: (data) => (this.users = data),
-      error: (err) => console.error('Failed to load users', err),
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to load users',
+        });
+      },
     });
   }
 
   loadLoginLogs(): void {
     this.auth.getLoginLogs().subscribe({
       next: (data) => (this.loginLogs = data),
-      error: (err) => console.error('Failed to load login logs', err),
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to load login logs',
+        });
+      },
     });
   }
 

@@ -1,0 +1,27 @@
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Login Logs</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle table-bordered shadow-sm">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Email</th>
+                    <th>Date & Time</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                <ng-container *ngIf="logs$ | async as logs">
+                    <tr *ngFor="let log of logs | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+                        <td>{{ log.email }}</td>
+                        <td>{{ log.timestamp | date: 'd MMMM y, h:mm a' }}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <pagination-controls [responsive]="true" [autoHide]="true" (pageChange)="page = $event"
+        class="d-flex justify-content-center mt-3">
+    </pagination-controls>
+</div>

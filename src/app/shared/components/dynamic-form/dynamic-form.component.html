@@ -14,13 +14,8 @@
                         <input class="form-control" [type]="field.type" [id]="field.name"
                             [formControlName]="field.name" />
 
-                        <div *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched" class="text-danger">
-                            <small *ngIf="form.get(field.name)?.errors?.['required']">
-                                {{ field.label }} is required.
-                            </small>
-                            <small *ngIf="form.get(field.name)?.errors?.['confirmPassword']">
-                                Password and confirm password do not match.
-                            </small>
+                        <div *ngIf="getFieldError(field.name)" class="text-danger">
+                            <small>{{ getFieldError(field.name) }}</small>
                         </div>
                     </div>
 
@@ -31,7 +26,7 @@
 
                 <div class="text-center mt-4">
                     <p>
-                        {{ formType === 'login' ? 'Don\'t have an account?' : 'Already have an account?' }}
+                        {{ formType === 'login' ? "Don't have an account?" : 'Already have an account?' }}
                     </p>
                     <button class="btn btn-link text-decoration-none" (click)="toggleForm()" role="button">
                         <strong>{{ formType === 'login' ? 'Register' : 'Login' }}</strong>

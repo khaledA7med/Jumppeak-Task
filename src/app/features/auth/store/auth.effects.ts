@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   registerUser,
-  verifyLogin,
+  loginUser,
   loginSuccess,
   loginFailure,
   registerSuccess,
@@ -81,9 +81,9 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  verifyLogin$ = createEffect(() =>
+  loginUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(verifyLogin),
+      ofType(loginUser),
       mergeMap(({ credentials }) =>
         this.auth.getUsers().pipe(
           map((users) => {
@@ -121,9 +121,11 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(loginSuccess),
         mergeMap(({ login }) =>
-          this.auth.logLogin(login).pipe(
+          this.auth.loginUser(login).pipe(
             tap(() => {
               localStorage.setItem('isLogin', 'true');
+              // Update the AuthService login state (BehaviorSubject)
+              this.auth.login(); // This updates the BehaviorSubject in AuthService
               Swal.fire({
                 icon: 'success',
                 title: 'Login successful',
@@ -247,20 +249,6 @@ export class AuthEffects {
       )
     )
   );
-
-  //   updateUserFailure$ = createEffect(() =>
-  //     this.actions$.pipe(
-  //       ofType(updateUserFailure),
-  //       tap(({ error }) => {
-  //         Swal.fire({
-  //           icon: 'error',
-  //           title: 'Oops...',
-  //           text: error,
-  //         });
-  //       }),
-  //       { dispatch: false }
-  //     )
-  //   );
 
   updateUserFailure$ = createEffect(
     () =>

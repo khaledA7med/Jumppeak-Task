@@ -18,6 +18,7 @@ export interface AuthState {
   selectedUser: User | null;
   loginHistory: LoginHistory[];
   error: string | null;
+  isLogin: boolean; // Add isLogin to the state
 }
 
 export const initialState: AuthState = {
@@ -25,6 +26,7 @@ export const initialState: AuthState = {
   selectedUser: null,
   loginHistory: [],
   error: null,
+  isLogin: false, // Default is false
 };
 
 export const authReducer = createReducer(
@@ -37,6 +39,7 @@ export const authReducer = createReducer(
   on(logLogin, (state, { login }) => ({
     ...state,
     loginHistory: [...state.loginHistory, login],
+    isLogin: true, // Set isLogin to true on successful login
   })),
 
   on(loadUsersSuccess, (state, { users }) => ({
@@ -54,20 +57,24 @@ export const authReducer = createReducer(
     selectedUser: user,
     error: null,
   })),
+
   on(deleteUserByIdSuccess, (state, { id }) => ({
     ...state,
     users: state.users.filter((user) => user.id !== id),
     error: null,
   })),
+
   on(userActionFailure, (state, { error }) => ({
     ...state,
     error,
   })),
+
   on(updateUserSuccess, (state, { user }) => ({
     ...state,
     users: state.users.map((u) => (u.id === user.id ? user : u)), // Update user in state
     error: null,
   })),
+
   on(updateUserFailure, (state, { error }) => ({
     ...state,
     error,

@@ -8,6 +8,11 @@ export const selectAllUsers = createSelector(
   (state) => state.users
 );
 
+export const selectIsLoggedIn = createSelector(
+  selectAuthState,
+  (state: AuthState) => state.isLogin // Access the `isLogin` state
+);
+
 export const selectSuccessfulLogins = createSelector(selectAuthState, (state) =>
   state.loginHistory.filter((l) => l.status === 'success')
 );

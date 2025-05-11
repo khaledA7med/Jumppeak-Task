@@ -1,15 +1,16 @@
 <div class="container mt-4">
-    <h2 class="mb-4 text-center">Login Logs</h2>
+    <h2 class="mb-4 text-center text-primary">Login Logs</h2>
 
+    <!-- Table for Login Logs -->
     <div class="table-responsive">
-        <table class="table table-hover align-middle table-bordered shadow-sm">
-            <thead class="table-primary text-center">
+        <table class="table table-striped table-bordered shadow-sm table-sm">
+            <thead class="table-light text-center">
                 <tr>
                     <th>Email</th>
                     <th>Date & Time</th>
                 </tr>
             </thead>
-            <tbody class="text-center">
+            <tbody>
                 <ng-container *ngIf="logs$ | async as logs">
                     <tr *ngFor="let log of logs | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
                         <td>{{ log.email }}</td>

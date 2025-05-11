@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,13 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'Jumppeak_Task';
 
-  isLogin: any;
+  isLogin: boolean = false;
+
+  constructor(private authService: AuthService) {}
+
   ngOnInit(): void {
-    this.isLogin = localStorage.getItem('isLogin');
+    this.authService.isLogin$.subscribe((loginState) => {
+      this.isLogin = loginState;
+    });
   }
 }

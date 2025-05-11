@@ -12,8 +12,7 @@ export const logLogin = createAction(
   props<{ login: LoginHistory }>()
 );
 
-// New
-export const verifyLogin = createAction(
+export const loginUser = createAction(
   '[Auth] Verify Login',
   props<{ credentials: { email: string; password: string } }>()
 );
@@ -29,7 +28,6 @@ export const loginFailure = createAction(
 );
 
 export const registerSuccess = createAction('[Auth] Register Success');
-
 export const registerFailure = createAction(
   '[Auth] Register Failure',
   props<{ message: string }>()

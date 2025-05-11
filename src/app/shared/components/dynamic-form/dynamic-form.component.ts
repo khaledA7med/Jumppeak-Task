@@ -51,10 +51,22 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   // Initialize the form based on dynamic configuration
   initForm(): void {
     const group: { [key: string]: FormControl } = {};
+
     this.config.forEach((field) => {
-      const validators = field.required ? [Validators.required] : [];
+      const validators = [];
+      if (field.required) {
+        validators.push(Validators.required); // Add required validator if field is required
+      }
+      if (field.type === 'email') {
+        validators.push(Validators.email); // Validate email format
+      }
+      if (field.name === 'password') {
+        validators.push(Validators.minLength(8)); // Password should be at least 8 characters long
+      }
+
       group[field.name] = new FormControl('', validators);
     });
+
     this.form = new FormGroup(group);
   }
 
@@ -126,7 +138,15 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   getFieldError(fieldName: string): string | null {
     const control = this.form.get(fieldName);
     if (control?.invalid && control?.touched) {
-      return control.errors?.['required'] ? `${fieldName} is required.` : null;
+      if (control.errors?.['required']) {
+        return `${fieldName} is required.`;
+      }
+      if (fieldName === 'email' && control.errors?.['email']) {
+        return 'Please enter a valid email address.';
+      }
+      if (fieldName === 'password' && control.errors?.['minlength']) {
+        return 'Password must be at least 8 characters long.';
+      }
     }
     return null;
   }

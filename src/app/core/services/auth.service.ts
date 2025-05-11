@@ -32,7 +32,6 @@ export class AuthService {
 
   // method to handle HTTP errors
   private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
     throw new Error(error.message || 'Server error');
   }
 

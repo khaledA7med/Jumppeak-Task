@@ -116,7 +116,6 @@ export class DynamicFormComponent implements OnInit, OnChanges {
       title: 'Oops...',
       text: message,
     });
-    console.error(err); // Logging the actual error
   }
 
   // Toggle between login and register forms
